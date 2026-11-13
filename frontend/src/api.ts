@@ -1,4 +1,5 @@
 import type {
+  Animatic,
   BlenderJob,
   BlenderScene,
   BlenderStatus,
@@ -23,6 +24,10 @@ import type {
   Task,
   VersionDetail,
   VerifyResult,
+  LayoutKindInfo,
+  LayoutMarks,
+  LayoutSolution,
+  ShotLayout,
 } from "./types";
 
 export class ApiError extends Error {
@@ -131,11 +136,30 @@ export const api = {
     post<DeliveryInfo>("/api/deliveries", body),
   verifyDelivery: (id: number) => post<VerifyResult>(`/api/deliveries/${id}/verify`, {}),
   productionStats: () => request<ProductionStats>("/api/stats/production"),
+  animatics: (sequenceId: number) => request<Animatic[]>(`/api/animatics?sequence_id=${sequenceId}`),
+  uploadAnimatic: async (sequenceId: number, file: File) => {
+    const form = new FormData();
+    form.append("sequence_id", String(sequenceId));
+    form.append("file", file);
+    const res = await fetch("/api/animatics", { method: "POST", body: form });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({ detail: res.statusText }));
+      throw new ApiError(res.status, typeof body.detail === "string" ? body.detail : JSON.stringify(body.detail));
+    }
+    return res.json() as Promise<Animatic>;
+  },
+  updateCuts: (animaticId: number, changes: { index: number; shot_id?: number | null; frames?: { start?: number; end?: number } }[]) =>
+    request<Animatic>(`/api/animatics/${animaticId}/cuts`, { method: "PATCH", body: JSON.stringify({ changes }) }),
+  layoutKinds: () => request<LayoutKindInfo[]>("/api/layout/kinds"),
+  solveLayout: (body: { animatic_id: number; cut_index: number; marks: LayoutMarks }) => post<LayoutSolution>("/api/layouts/solve", body),
+  createLayout: (body: { animatic_id: number; cut_index: number; marks: LayoutMarks; source?: string }) => post<ShotLayout>("/api/layouts", body),
+  layouts: (animaticId: number) => request<ShotLayout[]>(`/api/layouts?animatic_id=${animaticId}`),
+  layout: (id: number) => request<ShotLayout>(`/api/layouts/${id}`),
   blenderStatus: () => request<BlenderStatus>("/api/blender/status"),
   blenderPickFile: () => post<{ path: string | null }>("/api/blender/pick-file", {}),
   blenderScenes: () => request<BlenderScene[]>("/api/blender/scenes"),
   blenderInspect: (path: string) => post<Task>("/api/blender/scenes/inspect", { path }),
-  blenderJobs: (purpose?: "passes" | "layer") => request<BlenderJob[]>(`/api/blender/jobs${purpose ? `?purpose=${purpose}` : ""}`),
+  blenderJobs: (purpose?: "passes" | "layer" | "layout") => request<BlenderJob[]>(`/api/blender/jobs${purpose ? `?purpose=${purpose}` : ""}`),
   blenderJob: (id: number) => request<BlenderJob>(`/api/blender/jobs/${id}`),
   blenderRender: (body: {
     purpose: "passes" | "layer";
@@ -207,6 +231,7 @@ export const media = {
   proxy: (versionId: number) => `/api/versions/${versionId}/proxy`,
   thumbnail: (versionId: number) => `/api/versions/${versionId}/thumbnail`,
   frame: (versionId: number, frame: number) => `/api/versions/${versionId}/frame/${frame}`,
+  animaticFrame: (animaticId: number, frame: number) => `/api/animatics/${animaticId}/frames/${frame}`,
 };
 
 export const ACTIVE_JOB = new Set(["queued", "running", "cancel_requested"]);

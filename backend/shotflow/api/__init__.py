@@ -137,8 +137,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             ],
         }
 
-    from . import (edit_routes, generation_routes, media_routes, production_routes, prompt_routes, review_routes,
-                   scene_routes, structure_routes)
+    from . import (edit_routes, generation_routes, layout_routes, media_routes, production_routes, prompt_routes,
+                   review_routes, scene_routes, structure_routes)
 
     app.include_router(media_routes.router(make_session, settings))
     app.include_router(review_routes.router(make_session))
@@ -148,6 +148,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(scene_routes.router(make_session, settings))
     app.include_router(structure_routes.router(make_session, settings))
     app.include_router(prompt_routes.router(make_session))
+    app.include_router(layout_routes.router(make_session, settings))
 
     ui_dist = ROOT / "frontend" / "dist"
     if ui_dist.is_dir():  # built React app; mounted last so /api routes take priority

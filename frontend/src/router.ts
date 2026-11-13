@@ -42,5 +42,5 @@ export const link = {
   recipes: (id?: number) => `#/recipes${id ? `/${id}` : ""}`,
   prompts: (sequenceId?: number) => `#/prompts${sequenceId ? `/${sequenceId}` : ""}`,
   deliveries: (id?: number) => `#/deliveries${id ? `/${id}` : ""}`,
-  scene3d: (tab?: "keyframe" | "layer" | "external") => `#/scene3d${tab ? `?tab=${tab}` : ""}`,
+  scene3d: (tab?: "layout" | "keyframe" | "layer" | "external") => `#/scene3d${tab ? `?tab=${tab}` : ""}`,
 };

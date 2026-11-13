@@ -149,7 +149,7 @@ def router(make_session: sessionmaker[Session], settings: Settings) -> APIRouter
     @api.get("/blender/jobs/{job_id}/files/{name}")
     def blender_file(job_id: int, name: str, session: Session = Depends(db)) -> FileResponse:
         outputs = (get_or_404(session, GenerationJob, job_id).params or {}).get("outputs") or {}
-        if name not in ("beauty", "depth", "mask", "preview") or name not in outputs:
+        if name not in ("beauty", "depth", "mask", "preview", "preview_start", "preview_end") or name not in outputs:
             raise HTTPException(404, "No such file")
         return FileResponse(outputs[name], media_type="video/mp4" if name == "preview" else "image/png")
 

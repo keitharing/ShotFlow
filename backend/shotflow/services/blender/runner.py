@@ -77,18 +77,19 @@ def _friendly(log_tail: str, code: int) -> str:
     return f"Blender 렌더 실패 (종료 코드 {code}): {error[-1] if error else log_tail.strip().splitlines()[-1:]}"
 
 
-def run_blender(scene: Path, job: dict[str, Any], out_dir: Path, *, on_line: Callable[[str], None] | None = None,
-                should_abort: Callable[[], str | None] | None = None) -> dict[str, Any]:
+def run_blender(scene: Path | None, job: dict[str, Any], out_dir: Path, *, on_line: Callable[[str], None] | None = None,
+                should_abort: Callable[[], str | None] | None = None, script: Path = SCRIPT) -> dict[str, Any]:
+    """scene None: start from an empty Blender (the layout builder makes its own scene and saves a new file)."""
     exe = blender_exe()
     if exe is None:
         raise RuntimeError("Blender가 설치되어 있지 않습니다 (C:\\Program Files\\Blender Foundation). 설치 후 다시 시도하세요.")
-    if not scene.is_file():
+    if scene is not None and not scene.is_file():
         raise FileNotFoundError(f"Blender 파일을 찾을 수 없습니다: {scene}")
     job_file = out_dir / "job.json"
     job_file.write_text(json.dumps({**job, "out_dir": str(out_dir)}, ensure_ascii=False), encoding="utf-8")
     (out_dir / "result.json").unlink(missing_ok=True)
-    command = [str(exe), "-b", "--factory-startup", str(scene), "--python-exit-code", "1",
-               "--python", str(SCRIPT), "--", str(job_file)]
+    command = [str(exe), "-b", "--factory-startup", *([str(scene)] if scene is not None else []),
+               "--python-exit-code", "1", "--python", str(script), "--", str(job_file)]
     tail: list[str] = []
     with (out_dir / "blender.log").open("w", encoding="utf-8") as log:
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
@@ -133,9 +134,15 @@ def inspect(scene: Path, settings: Settings | None = None) -> dict[str, Any]:
         raise ValueError("Blender 파일(.blend)만 쓸 수 있습니다")
     out = scene_dir(settings, scene)
     result = run_blender(scene, {"mode": "inspect"}, out)
+    return register_scene(scene, result["info"], out / "preview.png", settings)
+
+
+def register_scene(scene: Path, info: dict[str, Any], preview: Path | None, settings: Settings) -> dict[str, Any]:
+    """Add a .blend to the scene list (what the 3D keyframe step offers), with its cameras and a preview."""
+    scene = Path(scene).resolve()
     entry = {"path": str(scene), "name": scene.stem, "sha256": sha256_file(scene),
              "mtime": int(scene.stat().st_mtime), "inspected_at": utcnow().isoformat(),
-             "preview": str(out / "preview.png") if (out / "preview.png").is_file() else None, **result["info"]}
+             "preview": str(preview) if preview and Path(preview).is_file() else None, **info}
     registry = _registry(settings)
     registry[str(scene)] = entry
     writable_path(_registry_path(settings), settings).write_text(
@@ -304,6 +311,9 @@ def run_job(job_id: int, settings: Settings | None = None) -> dict[str, Any]:
             return {"job_id": job_id, "status": job.status}
         params = dict(job.params)
         job.status, job.started_at = "running", utcnow()
+    if params["purpose"] == "layout":
+        from ..layout import run_build
+        return run_build(job_id, settings)
     scene = Path(params["scene"])
     out_dir = _job_dir(settings, job_id)
     purpose = params["purpose"]
@@ -382,8 +392,8 @@ def register_beauty(job_id: int, settings: Settings, actor: str = "blender") -> 
 def job_out(job: GenerationJob) -> dict[str, Any]:
     p = job.params or {}
     outputs = p.get("outputs") or {}
-    files = {name: f"/api/blender/jobs/{job.id}/files/{name}" for name in ("beauty", "depth", "mask", "preview")
-             if name in outputs}
+    files = {name: f"/api/blender/jobs/{job.id}/files/{name}"
+             for name in ("beauty", "depth", "mask", "preview", "preview_start", "preview_end") if name in outputs}
     return {"id": job.id, "provider": job.provider, "purpose": p.get("purpose"), "status": job.status,
             "scene": p.get("scene"), "scene_name": p.get("scene_name"), "shot_id": p.get("shot_id"),
             "frame": p.get("frame"), "frame_start": p.get("frame_start"), "frame_end": p.get("frame_end"),
@@ -392,6 +402,7 @@ def job_out(job: GenerationJob) -> dict[str, Any]:
             "camera": p.get("camera"), "scene_sha256": p.get("scene_sha256"),
             "peak_vram_mb": job.peak_vram_mb, "peak_temp_c": job.peak_temp_c,
             "frame_count": outputs.get("frame_count"), "depth": (p.get("result") or {}).get("depth"),
+            "layout_id": p.get("layout_id"), "blend": outputs.get("blend"),
             "beauty_version_id": (p.get("registered") or {}).get("beauty"), "files": files,
             "created_at": job.created_at.isoformat() if job.created_at else None,
             "finished_at": job.finished_at.isoformat() if job.finished_at else None}

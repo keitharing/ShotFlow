@@ -370,7 +370,7 @@ export interface BlenderScene {
 
 export interface BlenderJob {
   id: number;
-  purpose: "passes" | "layer";
+  purpose: "passes" | "layer" | "layout";
   status: GenJob["status"];
   scene: string;
   scene_name: string;
@@ -392,7 +392,9 @@ export interface BlenderJob {
   frame_count: number | null;
   depth: { near_m: number; far_m: number; coverage: number } | null;
   beauty_version_id: number | null;
-  files: Partial<Record<"beauty" | "depth" | "mask" | "preview", string>>;
+  files: Partial<Record<"beauty" | "depth" | "mask" | "preview" | "preview_start" | "preview_end", string>>;
+  layout_id?: number | null;
+  blend?: string | null;
   created_at: string | null;
   finished_at: string | null;
 }
@@ -495,4 +497,94 @@ export interface ExternalPackage {
   start_frame_url: string;
   created_at: string | null;
   finished_at: string | null;
+}
+
+// ---- animatic -> blocking (D-015)
+export interface AnimaticCut {
+  index: number;
+  start: number;
+  end: number;
+  has_panel: boolean;
+  shot_id: number | null;
+  frames: { start: number; end: number };
+}
+
+export interface Animatic {
+  id: number;
+  sequence_id: number;
+  original_name: string;
+  width: number;
+  height: number;
+  fps: number;
+  frame_count: number;
+  crop: [number, number, number, number];
+  aspect: number;
+  cuts: AnimaticCut[];
+  created_at: string | null;
+}
+
+export type LayoutKind = "bottle" | "person" | "box" | "round" | "building" | "other";
+export type LayoutRole = "start" | "end";
+
+export interface LayoutObjectMark {
+  id: number;
+  kind: LayoutKind;
+  label: string;
+  box: [number, number, number, number];
+  height_m: number | null;
+  grounded: boolean;
+  mask: boolean;
+  anchor: boolean;
+}
+
+export interface LayoutFrameMarks {
+  role: LayoutRole;
+  frame: number;
+  horizon: number;
+  objects: LayoutObjectMark[];
+}
+
+export interface LayoutMarks {
+  lens_mm: number;
+  frames: LayoutFrameMarks[];
+}
+
+export interface LayoutCamera {
+  role: LayoutRole;
+  height_m: number;
+  pitch_deg: number;
+  lens_mm: number;
+  distance_m: number;
+  location: number[];
+  rotation_deg: number[];
+}
+
+export interface LayoutSolution {
+  aspect: number;
+  lens_mm: number;
+  cameras: LayoutCamera[];
+  objects: { id: number; label: string; kind: LayoutKind; grounded: boolean; mask: boolean; anchor: boolean; location: number[]; size: number[] }[];
+  anchor: string;
+  warnings: string[];
+}
+
+export interface ShotLayout {
+  id: number;
+  code: string;
+  shot_id: number;
+  shot_code: string;
+  animatic_id: number | null;
+  cut_index: number | null;
+  marks: LayoutMarks;
+  solution: LayoutSolution;
+  source: string;
+  blend_path: string | null;
+  job: BlenderJob | null;
+  created_at: string | null;
+}
+
+export interface LayoutKindInfo {
+  kind: LayoutKind;
+  name: string;
+  height_m: number | null;
 }

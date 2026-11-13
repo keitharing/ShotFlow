@@ -36,6 +36,7 @@ OUT_W, OUT_H = 1920, 1080
 MODE = sys.argv[1] if len(sys.argv) > 1 else "test"
 OUT_DIR = HERE / ("test" if MODE == "test" else "out")
 FINAL = CAREER / "02_포트폴리오/00_안우혁_포트폴리오/assets/video/ShotFlow_Demo_v03.mp4"
+OUT_NAME = "ShotFlow_Demo_v03.mp4"   # 다른 녹화 스크립트(record_layout.py)가 바꿔 씀
 
 # 시연에서 다시 등록해 보이는 그림: FIRST DROP A1에 실제로 쓴 시작 그림(ext_006)과 같은 파일
 START_IMAGE = SF / "data/imports/shot00024/ext_006.png"
@@ -538,7 +539,7 @@ def main():
             for p, dur, _c, sp in rec.frames:
                 fh.write(f"file '{p.as_posix()}'\nduration {dur / sp:.4f}\n")
             fh.write(f"file '{rec.frames[-1][0].as_posix()}'\n")
-        out = OUT_DIR / "ShotFlow_Demo_v03.mp4"
+        out = OUT_DIR / OUT_NAME
         subprocess.run([FFMPEG, "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(lst),
                         "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-shortest",
                         "-vf", "fps=24,scale=out_range=tv,format=yuv420p", "-pix_fmt", "yuv420p", "-c:v", "libx264", "-crf", "18", "-preset", "slow",

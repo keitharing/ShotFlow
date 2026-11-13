@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ACTIVE_JOB, api, compositePreview, media, waitForTask, type CompositeBody } from "../api";
 import { Loading, Toolbar } from "../components/Bits";
+import { Progress, Step, usePolled } from "../components/Steps";
 import { Icon } from "../components/Icon";
 import { JobCard } from "../components/JobCard";
+import { LayoutFlow } from "./LayoutFlow";
 import { kst } from "../format";
 import { link } from "../router";
 import type {
@@ -18,9 +20,10 @@ import type {
 import { useAsync } from "../useAsync";
 
 type ShotRow = Shot & { seq: string };
-type Tab = "keyframe" | "layer" | "external";
+type Tab = "layout" | "keyframe" | "layer" | "external";
 
 const TABS: { key: Tab; label: string }[] = [
+  { key: "layout", label: "애니메틱 → 블로킹" },
   { key: "keyframe", label: "3D 키프레임" },
   { key: "layer", label: "비·효과 레이어 합성" },
   { key: "external", label: "외부 생성 (Seedance)" },
@@ -30,31 +33,6 @@ const MOTION_PROMPT =
   "slow motion rain falls around the perfume bottle, water droplets slide down the glass, gentle slow push-in, cinematic lighting, the bottle shape, label-free glass and cap stay unchanged";
 
 // ------------------------------------------------------------------ small building blocks
-
-function Step({ n, title, hint, done, children }: { n: number; title: string; hint?: string; done?: boolean; children: ReactNode }) {
-  return (
-    <section className="panel step">
-      <div className="step-head">
-        <span className={`step-num${done ? " done" : ""}`}>{done ? <Icon name="check" size={12} /> : n}</span>
-        <div>
-          <h2>{title}</h2>
-          {hint && <p className="faint small">{hint}</p>}
-        </div>
-      </div>
-      <div className="step-body">{children}</div>
-    </section>
-  );
-}
-
-function Progress({ value, stage, error }: { value: number; stage: string | null; error?: string | null }) {
-  if (error) return <p className="error-text small">{error}</p>;
-  return (
-    <div className="progress-line">
-      <div className="progress running"><div style={{ width: `${Math.round(value * 100)}%` }} /></div>
-      <span className="faint small">{stage ?? "대기"}</span>
-    </div>
-  );
-}
 
 function Slider({ label, value, min, max, step, left, right, onChange }: {
   label: string; value: number; min: number; max: number; step: number; left: string; right: string; onChange: (v: number) => void;
@@ -69,17 +47,6 @@ function Slider({ label, value, min, max, step, left, right, onChange }: {
 }
 
 /** Poll a job while it is active; returns the latest copy. */
-function usePolled<T extends { status: string }>(initial: T | null, load: (job: T) => Promise<T>): [T | null, (j: T | null) => void] {
-  const [job, setJob] = useState<T | null>(initial);
-  const active = !!job && ACTIVE_JOB.has(job.status);
-  useEffect(() => {
-    if (!job || !active) return;
-    const timer = setInterval(async () => setJob(await load(job)), 1500);
-    return () => clearInterval(timer);
-  }, [job, active]); // eslint-disable-line react-hooks/exhaustive-deps
-  return [job, setJob];
-}
-
 function sceneSummary(s: BlenderScene): string {
   if (!s.inspected_at) return "아직 확인하지 않은 장면";
   const res = s.resolution ? `${s.resolution[0]}×${s.resolution[1]}` : "";
@@ -646,7 +613,7 @@ export function Scene3DPage({ sequences, tab }: { sequences: SequenceSummary[]; 
     () => Promise.all(sequences.map((s) => api.shots(s.id).then((list) => list.filter((x) => x.kind === "shot").map((x) => ({ ...x, seq: s.name }))))).then((x) => x.flat()),
     [sequences.length],
   );
-  const current = (TABS.find((t) => t.key === tab)?.key ?? "keyframe") as Tab;
+  const current = (TABS.find((t) => t.key === tab)?.key ?? "keyframe") as Tab;  // the sidebar link keeps opening the keyframe step
 
   return (
     <>
@@ -665,7 +632,8 @@ export function Scene3DPage({ sequences, tab }: { sequences: SequenceSummary[]; 
         )}
         {status.data?.installed && <p className="faint small">Blender {status.data.version} · {status.data.exe}</p>}
         {!shotsQ.data ? <Loading error={shotsQ.error} loading={shotsQ.loading} /> : (
-          current === "keyframe" ? <KeyframeFlow shots={shotsQ.data as ShotRow[]} />
+          current === "layout" ? <LayoutFlow sequences={sequences} shots={shotsQ.data as ShotRow[]} />
+            : current === "keyframe" ? <KeyframeFlow shots={shotsQ.data as ShotRow[]} />
             : current === "layer" ? <LayerFlow shots={shotsQ.data as ShotRow[]} />
               : <ExternalList />
         )}

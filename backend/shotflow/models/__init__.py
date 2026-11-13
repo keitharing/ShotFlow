@@ -372,6 +372,50 @@ class PromptSnapshot(Base):
     created_at: Mapped[datetime] = mapped_column(default=utcnow)
 
 
+class Animatic(Base):
+    """A storyboard animatic of one film, split into cuts. Cuts with a drawing can be turned into Blender blocking."""
+
+    __tablename__ = "animatic"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    sequence_id: Mapped[int] = mapped_column(ForeignKey("sequence.id", ondelete="CASCADE"))
+    path: Mapped[str] = mapped_column(Text)
+    original_name: Mapped[str] = mapped_column(Text)
+    sha256: Mapped[str] = mapped_column(String(64))
+    width: Mapped[int] = mapped_column(Integer)
+    height: Mapped[int] = mapped_column(Integer)
+    fps: Mapped[float] = mapped_column(Float)
+    frame_count: Mapped[int] = mapped_column(Integer)
+    # Drawing area inside the frame [x, y, w, h] in pixels (storyboard pages put the drawing on a dark page)
+    crop: Mapped[list[int]] = mapped_column(JSON)
+    # [{index, start, end, has_panel, shot_id, frames: {start, end}}], end exclusive
+    cuts: Mapped[list[dict[str, Any]]] = mapped_column(JSON, default=list)
+    created_at: Mapped[datetime] = mapped_column(default=utcnow)
+
+    sequence: Mapped[Sequence] = relationship()
+
+
+class ShotLayout(Base):
+    """Blocking of one shot made from marks on an animatic drawing: boxes, horizon, lens -> camera and proxies."""
+
+    __tablename__ = "shot_layout"
+    __table_args__ = (UniqueConstraint("shot_id", "code"),)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    shot_id: Mapped[int] = mapped_column(ForeignKey("shot.id", ondelete="CASCADE"))
+    animatic_id: Mapped[int | None] = mapped_column(ForeignKey("animatic.id", ondelete="SET NULL"))
+    cut_index: Mapped[int | None] = mapped_column(Integer)
+    code: Mapped[str] = mapped_column(String(32))
+    marks: Mapped[dict[str, Any]] = mapped_column(JSON)       # what the artist (or a suggestion) marked
+    solution: Mapped[dict[str, Any]] = mapped_column(JSON)    # cameras and proxies computed from the marks
+    source: Mapped[str] = mapped_column(String(16), default="manual")  # manual | suggested | mixed
+    generation_job_id: Mapped[int | None] = mapped_column(ForeignKey("generation_job.id", ondelete="SET NULL"))
+    blend_path: Mapped[str | None] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(default=utcnow)
+
+    shot: Mapped[Shot] = relationship()
+    animatic: Mapped[Animatic | None] = relationship()
+    generation_job: Mapped[GenerationJob | None] = relationship()
+
+
 def log_activity(session, actor: str, action: str, target=None, **detail: Any) -> ActivityLog:
     entry = ActivityLog(
         actor=actor,
