@@ -1,0 +1,12 @@
+{
+  "1": {"class_type": "UNETLoader", "_meta": {"title": "Wan 모델"}, "inputs": {"unet_name": "wan2.1_t2v_1.3B_fp16.safetensors", "weight_dtype": "default"}},
+  "2": {"class_type": "CLIPLoader", "_meta": {"title": "텍스트 인코더 (CPU)"}, "inputs": {"clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors", "type": "wan", "device": "cpu"}},
+  "3": {"class_type": "VAELoader", "_meta": {"title": "Wan VAE"}, "inputs": {"vae_name": "wan_2.1_vae.safetensors"}},
+  "4": {"class_type": "CLIPTextEncode", "_meta": {"title": "SF:프롬프트"}, "inputs": {"text": "rain falling on a dark reflective pool at night, slow camera push, cinematic", "clip": ["2", 0]}},
+  "5": {"class_type": "CLIPTextEncode", "_meta": {"title": "SF:네거티브"}, "inputs": {"text": "text, watermark, people, blurry, static image", "clip": ["2", 0]}},
+  "6": {"class_type": "ModelSamplingSD3", "_meta": {"title": "샘플링 시프트"}, "inputs": {"model": ["1", 0], "shift": 8.0}},
+  "7": {"class_type": "EmptyHunyuanLatentVideo", "_meta": {"title": "SF:길이와 해상도"}, "inputs": {"width": 256, "height": 256, "length": 17, "batch_size": 1}},
+  "8": {"class_type": "KSampler", "_meta": {"title": "SF:샘플러"}, "inputs": {"model": ["6", 0], "seed": 20261014, "steps": 20, "cfg": 6.0, "sampler_name": "uni_pc", "scheduler": "simple", "positive": ["4", 0], "negative": ["5", 0], "latent_image": ["7", 0], "denoise": 1.0}},
+  "9": {"class_type": "VAEDecode", "_meta": {"title": "디코드"}, "inputs": {"samples": ["8", 0], "vae": ["3", 0]}},
+  "10": {"class_type": "SaveImage", "_meta": {"title": "SF:출력"}, "inputs": {"images": ["9", 0], "filename_prefix": "shotflow/wan_t2v"}}
+}

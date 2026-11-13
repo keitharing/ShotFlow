@@ -1,0 +1,13 @@
+{
+  "id": "wan_t2v",
+  "name": "짧은 영상 생성",
+  "kind": "t2v",
+  "description": "Wan 2.1 T2V 1.3B로 텍스트에서 짧은 모션 테스트를 만듭니다. 이 PC(6GB)에서는 면적 384×256 이하, 9~33프레임만 허용합니다. 실측상 256×256이 가장 안정적이고 384×208은 블록 깨짐이 심합니다 (D-005).",
+  "output": {"node_title": "SF:출력", "kind": "frames", "fps": 16},
+  "expose": {
+    "SF:샘플러": ["seed", "steps", "cfg"],
+    "SF:길이와 해상도": ["width", "height", "length"]
+  },
+  "size_inputs": [{"node_title": "SF:길이와 해상도", "width": "width", "height": "height"}],
+  "limits": {"max_area": 98304, "length_min": 9, "length_max": 33, "length_rule": "4n+1", "multiple": 16}
+}

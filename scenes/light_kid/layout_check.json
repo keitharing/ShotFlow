@@ -1,0 +1,414 @@
+{
+ "camera": {
+  "location": [
+   0,
+   -10.0,
+   0
+  ],
+  "lens_mm": 35.0,
+  "shift_y": -0.02708333358168602
+ },
+ "origin_at": [
+  0.5,
+  0.4519
+ ],
+ "problems": 0,
+ "shots": [
+  {
+   "no": "S01",
+   "frame": 1,
+   "name": "어둠 속 불씨",
+   "objects": 5,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 18.7,
+   "light_radius_expected_px": 19
+  },
+  {
+   "no": "S02",
+   "frame": 2,
+   "name": "성냥불",
+   "objects": 6,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 80.0,
+   "light_radius_expected_px": 80
+  },
+  {
+   "no": "S03",
+   "frame": 3,
+   "name": "반딧불",
+   "objects": 9,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 69.3,
+   "light_radius_expected_px": 69
+  },
+  {
+   "no": "S04",
+   "frame": 4,
+   "name": "촛불",
+   "objects": 8,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    -0.0,
+    0.0
+   ],
+   "light_radius_px": 106.7,
+   "light_radius_expected_px": 107
+  },
+  {
+   "no": "S05",
+   "frame": 5,
+   "name": "모닥불",
+   "objects": 24,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    -0.0,
+    0.0
+   ],
+   "light_radius_px": 138.7,
+   "light_radius_expected_px": 139
+  },
+  {
+   "no": "S06",
+   "frame": 6,
+   "name": "랜턴",
+   "objects": 10,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 154.7,
+   "light_radius_expected_px": 155
+  },
+  {
+   "no": "S07",
+   "frame": 7,
+   "name": "창문 불빛",
+   "objects": 9,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 176.0,
+   "light_radius_expected_px": 176
+  },
+  {
+   "no": "S08",
+   "frame": 8,
+   "name": "손전등",
+   "objects": 6,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 208.0,
+   "light_radius_expected_px": 208
+  },
+  {
+   "no": "S09",
+   "frame": 9,
+   "name": "가로등",
+   "objects": 7,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 229.3,
+   "light_radius_expected_px": 229
+  },
+  {
+   "no": "S10",
+   "frame": 10,
+   "name": "기차 전조등",
+   "objects": 10,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 256.0,
+   "light_radius_expected_px": 256
+  },
+  {
+   "no": "S11",
+   "frame": 11,
+   "name": "등대",
+   "objects": 10,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 277.3,
+   "light_radius_expected_px": 277
+  },
+  {
+   "no": "S12",
+   "frame": 12,
+   "name": "불꽃놀이",
+   "objects": 28,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 298.7,
+   "light_radius_expected_px": 299
+  },
+  {
+   "no": "S13",
+   "frame": 13,
+   "name": "로켓",
+   "objects": 24,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    -0.0,
+    0.0
+   ],
+   "light_radius_px": 314.7,
+   "light_radius_expected_px": 315
+  },
+  {
+   "no": "S14",
+   "frame": 14,
+   "name": "보름달",
+   "objects": 11,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 341.3,
+   "light_radius_expected_px": 341
+  },
+  {
+   "no": "S15",
+   "frame": 15,
+   "name": "해돋이",
+   "objects": 5,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 373.3,
+   "light_radius_expected_px": 373
+  },
+  {
+   "no": "S16",
+   "frame": 16,
+   "name": "일식",
+   "objects": 5,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 453.3,
+   "light_radius_expected_px": 453
+  },
+  {
+   "no": "S17",
+   "frame": 17,
+   "name": "태양",
+   "objects": 6,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 560.0,
+   "light_radius_expected_px": 560
+  },
+  {
+   "no": "S18",
+   "frame": 18,
+   "name": "새로 태어난 별",
+   "objects": 33,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 666.7,
+   "light_radius_expected_px": 667
+  },
+  {
+   "no": "S19",
+   "frame": 19,
+   "name": "은하",
+   "objects": 8,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 746.7,
+   "light_radius_expected_px": 747
+  },
+  {
+   "no": "S20",
+   "frame": 20,
+   "name": "화면을 채우는 빛",
+   "objects": 3,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "no": "S21",
+   "frame": 21,
+   "name": "아이의 눈동자",
+   "objects": 9,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 122.7,
+   "light_radius_expected_px": 123
+  },
+  {
+   "no": "S22",
+   "frame": 22,
+   "name": "떠 있는 빛",
+   "objects": 6,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 117.3,
+   "light_radius_expected_px": null
+  },
+  {
+   "no": "S23",
+   "frame": 23,
+   "name": "빛을 하늘로",
+   "objects": 38,
+   "wrong_shot_objects": [],
+   "light_at": [
+    0.5,
+    0.4519
+   ],
+   "light_off_px": [
+    0.0,
+    0.0
+   ],
+   "light_radius_px": 58.7,
+   "light_radius_expected_px": 59
+  },
+  {
+   "no": "S24",
+   "frame": 24,
+   "name": "하늘에 퍼지는 빛 · 제목",
+   "objects": 36,
+   "wrong_shot_objects": []
+  }
+ ]
+}

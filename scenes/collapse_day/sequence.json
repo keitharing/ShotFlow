@@ -1,0 +1,11 @@
+{
+  "code": "COLLAPSE_DAY",
+  "name": "무너지는 날",
+  "target_duration_s": 16,
+  "shots": [
+    {"code": "C1", "description": "아래에서 올려다본 건물. 위층에 금이 번지고 외벽 조각이 떨어지기 시작한다 (3초)"},
+    {"code": "C2", "description": "옆에서 넓게. 건물 위쪽 절반이 주저앉고 먼지 기둥이 솟는다 (5초)"},
+    {"code": "C3", "description": "얼굴 가까이. 지켜보는 사람, 머리카락과 붉은 머플러가 날린다 (3초)"},
+    {"code": "C4", "description": "땅바닥 높이. 먼지 벽이 화면을 덮고 제목 (5초)"}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "sequence": "RAIN_ATLAS",
+  "name": "v0.5",
+  "base_edit": "v0.4 review cut",
+  "settings": {
+    "fade_in_s": 0.12,
+    "fade_out_s": 0.25,
+    "end_card": {"title": "Rain Atlas", "subtitle": "AI Product Film", "duration_s": 2.0, "transition": "dissolve", "transition_frames": 12},
+    "auto_color": {"reference": "R03", "strength": 0.5, "limit": 0.04}
+  },
+  "entries": [
+    {"shot": "R01", "src_in": 12, "src_out": 108, "reason": "접사 물방울, v0.4 구간 유지"},
+    {"shot": "R02", "src_in": 24, "src_out": 96, "reason": "병 아래 젖은 바위 4초 → 3초 (다음 샷들의 물웅덩이와 바닥이 달라 짧게)"},
+    {"shot": "R03", "src_in": 12, "src_out": 108, "reason": "카메라가 다가가는 빗속 샷, 유지"},
+    {"shot": "R04", "src_in": 24, "src_out": 96, "reason": "거의 정지 4초 → 3초"},
+    {"shot": "R05", "src_in": 12, "src_out": 108, "transition": "dissolve", "transition_frames": 12, "reason": "비 장면 → 초록 스튜디오 급변을 0.5초 디졸브로 완화. 근본 해결은 Houdini 비 합성 (나중)"}
+  ]
+}

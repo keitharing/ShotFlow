@@ -1,0 +1,263 @@
+{
+ "seed": 7,
+ "frames": 72,
+ "gravity": 0.12111111111111111,
+ "camera": [
+  -0.12999999523162842,
+  -0.41999998688697815,
+  0.04500000178813934
+ ],
+ "origin": [
+  -0.12999999523162842,
+  0.24533604085445404,
+  0.0
+ ],
+ "focus_m": 0.665336021115389,
+ "fstop": 4.0,
+ "tries": {
+  "big": 9,
+  "fine": 22
+ },
+ "drops": [
+  {
+   "name": "fx_drop_00",
+   "radius_mm": 3.1,
+   "first_frame": 4,
+   "last_seen_frame": 40,
+   "speed": 0.225,
+   "azimuth_deg": 20.9,
+   "up": 0.089,
+   "biggest_ndc": 0.028
+  },
+  {
+   "name": "fx_drop_01",
+   "radius_mm": 3.11,
+   "first_frame": 13,
+   "last_seen_frame": 37,
+   "speed": 0.176,
+   "azimuth_deg": -17.9,
+   "up": 0.153,
+   "biggest_ndc": 0.015
+  },
+  {
+   "name": "fx_drop_02",
+   "radius_mm": 2.99,
+   "first_frame": 9,
+   "last_seen_frame": 30,
+   "speed": 0.276,
+   "azimuth_deg": -20.4,
+   "up": 0.157,
+   "biggest_ndc": 0.019
+  },
+  {
+   "name": "fx_drop_03",
+   "radius_mm": 3.69,
+   "first_frame": 8,
+   "last_seen_frame": 30,
+   "speed": 0.25,
+   "azimuth_deg": -0.2,
+   "up": 0.15,
+   "biggest_ndc": 0.02
+  },
+  {
+   "name": "fx_drop_04",
+   "radius_mm": 3.89,
+   "first_frame": 10,
+   "last_seen_frame": 46,
+   "speed": 0.273,
+   "azimuth_deg": 12.7,
+   "up": 0.107,
+   "biggest_ndc": 0.045
+  },
+  {
+   "name": "fx_drop_05",
+   "radius_mm": 3.6,
+   "first_frame": 11,
+   "last_seen_frame": 37,
+   "speed": 0.249,
+   "azimuth_deg": -27.3,
+   "up": 0.147,
+   "biggest_ndc": 0.021
+  },
+  {
+   "name": "fx_drop_06",
+   "radius_mm": 3.03,
+   "first_frame": 8,
+   "last_seen_frame": 35,
+   "speed": 0.257,
+   "azimuth_deg": 16.9,
+   "up": 0.156,
+   "biggest_ndc": 0.022
+  },
+  {
+   "name": "fx_drop_07",
+   "radius_mm": 4.03,
+   "first_frame": 8,
+   "last_seen_frame": 33,
+   "speed": 0.274,
+   "azimuth_deg": -27.6,
+   "up": 0.084,
+   "biggest_ndc": 0.024
+  },
+  {
+   "name": "fx_drop_08",
+   "radius_mm": 1.12,
+   "first_frame": 4,
+   "last_seen_frame": 33,
+   "speed": 0.319,
+   "azimuth_deg": 20.6,
+   "up": 0.113,
+   "biggest_ndc": 0.023
+  },
+  {
+   "name": "fx_drop_09",
+   "radius_mm": 1.21,
+   "first_frame": 13,
+   "last_seen_frame": 34,
+   "speed": 0.179,
+   "azimuth_deg": -28.2,
+   "up": 0.185,
+   "biggest_ndc": 0.008
+  },
+  {
+   "name": "fx_drop_10",
+   "radius_mm": 1.01,
+   "first_frame": 15,
+   "last_seen_frame": 29,
+   "speed": 0.217,
+   "azimuth_deg": 24.6,
+   "up": 0.214,
+   "biggest_ndc": 0.006
+  },
+  {
+   "name": "fx_drop_11",
+   "radius_mm": 1.02,
+   "first_frame": 7,
+   "last_seen_frame": 33,
+   "speed": 0.293,
+   "azimuth_deg": -20.3,
+   "up": 0.112,
+   "biggest_ndc": 0.016
+  },
+  {
+   "name": "fx_drop_12",
+   "radius_mm": 1.02,
+   "first_frame": 13,
+   "last_seen_frame": 34,
+   "speed": 0.297,
+   "azimuth_deg": 28.8,
+   "up": 0.168,
+   "biggest_ndc": 0.012
+  },
+  {
+   "name": "fx_drop_13",
+   "radius_mm": 1.49,
+   "first_frame": 16,
+   "last_seen_frame": 37,
+   "speed": 0.288,
+   "azimuth_deg": -6.9,
+   "up": 0.13,
+   "biggest_ndc": 0.014
+  },
+  {
+   "name": "fx_drop_14",
+   "radius_mm": 0.9,
+   "first_frame": 6,
+   "last_seen_frame": 58,
+   "speed": 0.171,
+   "azimuth_deg": -18.7,
+   "up": 0.126,
+   "biggest_ndc": 0.02
+  },
+  {
+   "name": "fx_drop_15",
+   "radius_mm": 1.41,
+   "first_frame": 13,
+   "last_seen_frame": 41,
+   "speed": 0.238,
+   "azimuth_deg": 30.6,
+   "up": 0.142,
+   "biggest_ndc": 0.014
+  },
+  {
+   "name": "fx_drop_16",
+   "radius_mm": 1.15,
+   "first_frame": 6,
+   "last_seen_frame": 30,
+   "speed": 0.293,
+   "azimuth_deg": -21.7,
+   "up": 0.073,
+   "biggest_ndc": 0.015
+  },
+  {
+   "name": "fx_drop_17",
+   "radius_mm": 1.66,
+   "first_frame": 18,
+   "last_seen_frame": 33,
+   "speed": 0.281,
+   "azimuth_deg": -12.9,
+   "up": 0.166,
+   "biggest_ndc": 0.01
+  },
+  {
+   "name": "fx_drop_18",
+   "radius_mm": 1.41,
+   "first_frame": 8,
+   "last_seen_frame": 66,
+   "speed": 0.196,
+   "azimuth_deg": 1.1,
+   "up": 0.123,
+   "biggest_ndc": 0.047
+  },
+  {
+   "name": "fx_drop_19",
+   "radius_mm": 0.92,
+   "first_frame": 2,
+   "last_seen_frame": 19,
+   "speed": 0.257,
+   "azimuth_deg": -10.0,
+   "up": 0.191,
+   "biggest_ndc": 0.009
+  },
+  {
+   "name": "fx_drop_20",
+   "radius_mm": 1.22,
+   "first_frame": 14,
+   "last_seen_frame": 36,
+   "speed": 0.319,
+   "azimuth_deg": -30.2,
+   "up": 0.159,
+   "biggest_ndc": 0.015
+  },
+  {
+   "name": "fx_drop_21",
+   "radius_mm": 1.27,
+   "first_frame": 6,
+   "last_seen_frame": 26,
+   "speed": 0.31,
+   "azimuth_deg": -22.0,
+   "up": 0.152,
+   "biggest_ndc": 0.013
+  },
+  {
+   "name": "fx_drop_22",
+   "radius_mm": 0.92,
+   "first_frame": 5,
+   "last_seen_frame": 32,
+   "speed": 0.299,
+   "azimuth_deg": 20.9,
+   "up": 0.102,
+   "biggest_ndc": 0.016
+  },
+  {
+   "name": "fx_drop_23",
+   "radius_mm": 1.1,
+   "first_frame": 11,
+   "last_seen_frame": 44,
+   "speed": 0.247,
+   "azimuth_deg": 21.4,
+   "up": 0.079,
+   "biggest_ndc": 0.018
+  }
+ ]
+}

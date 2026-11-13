@@ -1,0 +1,29 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# ShotFlow runtime data (DB, cache, renders, deliveries)
+data/
+# 시연 녹화용 데이터 복사본
+data_demo/
+
+# 시연 녹화 결과물 (영상 · 정지 그림 · 백업). 스크립트와 읽어보기만 올림
+docs/시연_녹화/out/
+docs/시연_녹화/test/
+docs/시연_녹화/_sheet.jpg
+docs/시연_녹화/_backup_frontend_*/
+
+# Blender 파일: 장면은 scenes/**/build_*.py 같은 스크립트로 다시 만들 수 있음
+*.blend
+*.blend1
+
+# 내부 작업용 문서
+docs/인수인계_프롬프트.html
+docs/지금까지_한_일_쉽게.html
+docs/3D연동_결과검토.html

@@ -1,0 +1,18 @@
+{
+  "sequence": "RAIN_ATLAS",
+  "name": "v0.6",
+  "base_edit": "v0.5",
+  "settings": {
+    "fade_in_s": 0.12,
+    "fade_out_s": 0.25,
+    "end_card": {"title": "Rain Atlas", "subtitle": "AI Product Film", "duration_s": 2.0, "transition": "dissolve", "transition_frames": 12},
+    "auto_color": {"reference": "R03", "strength": 0.5, "limit": 0.04}
+  },
+  "entries": [
+    {"shot": "R01", "src_in": 12, "src_out": 108, "reason": "접사 물방울, v0.5와 같음"},
+    {"shot": "R02", "src_in": 24, "src_out": 96, "reason": "v0.5와 같음 (3초)"},
+    {"shot": "R03", "src_in": 12, "src_out": 108, "reason": "v0.5와 같음"},
+    {"shot": "R04", "src_in": 24, "src_out": 96, "reason": "v0.5와 같음 (3초)"},
+    {"shot": "R05", "version": "v01_comp_001", "src_in": 12, "src_out": 108, "reason": "Blender 비 레이어를 합성한 R05로 교체 (v01_comp_001). 비가 이어지므로 0.5초 디졸브를 컷으로 바꿈"}
+  ]
+}

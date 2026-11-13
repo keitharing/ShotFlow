@@ -1,0 +1,18 @@
+{
+  "sequence": "THE_LAST_LIGHT",
+  "name": "v0.5",
+  "base_edit": "v0.4 review cut",
+  "settings": {
+    "fade_in_s": 0.12,
+    "fade_out_s": 0.25,
+    "end_card": {"title": "The Last Light", "subtitle": "AI Product Film", "duration_s": 2.0, "transition": "dissolve", "transition_frames": 12},
+    "auto_color": {"reference": "L05", "strength": 0.5, "limit": 0.04}
+  },
+  "entries": [
+    {"shot": "L01", "src_in": 0, "src_out": 96, "reason": "정면 다이얼, 움직임이 적어 5초 → 4초"},
+    {"shot": "L02", "src_in": 12, "src_out": 108, "reason": "비스듬한 클로즈업, v0.4 구간 유지"},
+    {"shot": "L03", "src_in": 0, "src_out": 72, "reason": "유리 위로 빛이 지나가는 앞부분 중심 3초. v0.4 검수에서 경고된 끝부분 1.25초 정지 구간 제외"},
+    {"shot": "L04", "src_in": 0, "src_out": 60, "reason": "시계가 점처럼 작아지는 뒷부분 대신 빛줄기가 내려오는 앞부분 2.5초"},
+    {"shot": "L05", "src_in": 0, "src_out": 84, "reason": "히어로 컷 5초 → 3.5초, 이후 엔드카드"}
+  ]
+}

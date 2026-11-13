@@ -1,0 +1,12 @@
+{
+  "id": "keyframe_sd15",
+  "name": "키프레임 생성",
+  "kind": "keyframe",
+  "description": "SD1.5로 시작 이미지를 만들고 잠재공간에서 1.5배 확대해 디테일을 한 번 더 그립니다 (6GB GPU 기준 768×432).",
+  "output": {"node_title": "SF:출력", "kind": "image"},
+  "expose": {
+    "SF:샘플러": ["seed", "steps", "cfg"],
+    "SF:디테일 패스": ["denoise"]
+  },
+  "size_inputs": [{"node_title": "SF:기본 해상도", "width": "width", "height": "height"}]
+}

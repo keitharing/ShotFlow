@@ -1,0 +1,18 @@
+{
+  "sequence": "BASALT_RUN",
+  "name": "v0.5",
+  "base_edit": "v0.4 review cut",
+  "settings": {
+    "fade_in_s": 0.12,
+    "fade_out_s": 0.25,
+    "end_card": {"title": "Basalt Run", "subtitle": "AI Product Film", "duration_s": 2.0, "transition": "dissolve", "transition_frames": 12},
+    "auto_color": {"reference": "B05", "strength": 0.5, "limit": 0.04}
+  },
+  "entries": [
+    {"shot": "B01", "src_in": 60, "src_out": 108, "reason": "물방울만 나오는 오프닝 4초 → 2초. 물방울이 합쳐지는 뒷부분만 사용해 차가 더 빨리 등장"},
+    {"shot": "B02", "src_in": 18, "src_out": 102, "reason": "앞바퀴 로우앵글 5초 → 3.5초. 바퀴 회전이 보이는 중간 구간"},
+    {"shot": "B03", "src_in": 18, "src_out": 102, "reason": "도로 위 정지에 가까운 샷 5초 → 3.5초"},
+    {"shot": "B04", "src_in": 0, "src_out": 120, "reason": "차가 실제로 달리는 유일한 샷이라 5초 그대로 유지"},
+    {"shot": "B05", "src_in": 0, "src_out": 84, "reason": "히어로 컷 5초 → 3.5초. 끝의 정지 구간 대신 엔드카드"}
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "code": "FIRST_DROP",
+  "name": "FIRST DROP",
+  "target_duration_s": 13,
+  "shots": [
+    {
+      "code": "A1",
+      "description": "아주 가까이. 음료 줄기가 병 왼쪽으로 쏟아지고, 줄기가 가늘어지며 끝난다 (4초)"
+    },
+    {
+      "code": "A2",
+      "description": "앞에서 표면 높이로. 같은 자리에 과일 조각이 떨어져 왕관 모양으로 튀어 오른다 (4초)"
+    },
+    {
+      "code": "A3",
+      "description": "정면. 튄 음료가 병 뒤에서 날개처럼 펼쳐져 멈춘 듯 떠 있다. 로고 (5초)"
+    }
+  ]
+}

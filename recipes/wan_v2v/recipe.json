@@ -1,0 +1,46 @@
+{
+  "id": "wan_v2v",
+  "name": "영상 변형",
+  "kind": "v2v",
+  "description": "기존 버전의 구간을 Wan 규격(16fps, 256×144)으로 줄여 Wan 2.1로 다시 그립니다. 실제 노이즈 양은 강도와 노이즈 시프트가 함께 정합니다 (시프트 3·강도 0.35 ≈ 62%). 결과는 톤·질감 테스트용입니다.",
+  "output": {
+    "node_title": "SF:출력",
+    "kind": "frames",
+    "fps": 16
+  },
+  "bindings": {
+    "source_video": {
+      "node_title": "SF:원본 구간",
+      "input": "file",
+      "prepare": {
+        "width": 256,
+        "height": 144,
+        "fps": 16,
+        "frames": 17
+      }
+    }
+  },
+  "expose": {
+    "SF:샘플러": [
+      "seed",
+      "steps",
+      "cfg",
+      "denoise"
+    ],
+    "SF:원본 구간": [],
+    "SF:노이즈 시프트": [
+      "shift"
+    ]
+  },
+  "strength_input": {
+    "node_title": "SF:샘플러",
+    "input": "denoise"
+  },
+  "limits": {
+    "max_area": 98304,
+    "length_min": 9,
+    "length_max": 33,
+    "length_rule": "4n+1",
+    "multiple": 16
+  }
+}

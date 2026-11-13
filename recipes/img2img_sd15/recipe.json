@@ -1,0 +1,14 @@
+{
+  "id": "img2img_sd15",
+  "name": "이미지 변형",
+  "kind": "img2img",
+  "description": "기존 버전의 한 프레임을 작업 해상도로 줄여 SD1.5로 다시 그립니다. 강도가 낮을수록 원본 구도와 색을 유지합니다.",
+  "output": {"node_title": "SF:출력", "kind": "image"},
+  "bindings": {"source_image": {"node_title": "SF:원본 프레임", "input": "image"}},
+  "expose": {
+    "SF:샘플러": ["seed", "steps", "cfg", "denoise"],
+    "SF:원본 프레임": []
+  },
+  "size_inputs": [{"node_title": "SF:작업 해상도", "width": "width", "height": "height"}],
+  "strength_input": {"node_title": "SF:샘플러", "input": "denoise"}
+}

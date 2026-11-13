@@ -1,0 +1,17 @@
+{
+  "1": {"class_type": "CheckpointLoaderSimple", "_meta": {"title": "모델"}, "inputs": {"ckpt_name": "Realistic_Vision_V6.0_NV_B1_fp16.safetensors"}},
+  "2": {"class_type": "VAELoader", "_meta": {"title": "VAE"}, "inputs": {"vae_name": "vae-ft-mse-840000-ema-pruned.safetensors"}},
+  "3": {"class_type": "CLIPTextEncode", "_meta": {"title": "SF:프롬프트"}, "inputs": {"text": "professional product photograph of an amber perfume bottle with a dark bronze metal cap standing in shallow still water, slow motion rain drops falling, dark green studio background with a soft glow, wet glass covered in water droplets, cinematic rim light, sharp focus, 85mm lens, high detail, photorealistic", "clip": ["1", 1]}},
+  "4": {"class_type": "CLIPTextEncode", "_meta": {"title": "SF:네거티브"}, "inputs": {"text": "cartoon, 3d render, cgi, illustration, painting, plastic, text, watermark, logo, label, blurry, deformed, extra bottles, distorted glass, oversaturated", "clip": ["1", 1]}},
+  "5": {"class_type": "LoadImage", "_meta": {"title": "SF:3D 렌더"}, "inputs": {"image": "placeholder.png"}},
+  "6": {"class_type": "ImageScale", "_meta": {"title": "SF:작업 해상도"}, "inputs": {"image": ["5", 0], "upscale_method": "lanczos", "width": 1024, "height": 576, "crop": "disabled"}},
+  "7": {"class_type": "LoadImage", "_meta": {"title": "SF:깊이 이미지"}, "inputs": {"image": "placeholder.png"}},
+  "8": {"class_type": "ControlNetLoader", "_meta": {"title": "구도 고정 모델"}, "inputs": {"control_net_name": "control_v11f1p_sd15_depth_fp16.safetensors"}},
+  "9": {"class_type": "ControlNetApplyAdvanced", "_meta": {"title": "SF:구도 고정"}, "inputs": {"positive": ["3", 0], "negative": ["4", 0], "control_net": ["8", 0], "image": ["7", 0], "strength": 0.85, "start_percent": 0.0, "end_percent": 0.85, "vae": ["2", 0]}},
+  "10": {"class_type": "VAEEncode", "_meta": {"title": "인코드"}, "inputs": {"pixels": ["6", 0], "vae": ["2", 0]}},
+  "11": {"class_type": "KSampler", "_meta": {"title": "SF:샘플러"}, "inputs": {"model": ["1", 0], "seed": 20261015, "steps": 28, "cfg": 5.0, "sampler_name": "dpmpp_2m", "scheduler": "karras", "positive": ["9", 0], "negative": ["9", 1], "latent_image": ["10", 0], "denoise": 0.62}},
+  "12": {"class_type": "LatentUpscaleBy", "_meta": {"title": "1.5배 확대"}, "inputs": {"samples": ["11", 0], "upscale_method": "bislerp", "scale_by": 1.5}},
+  "13": {"class_type": "KSampler", "_meta": {"title": "SF:다듬기"}, "inputs": {"model": ["1", 0], "seed": 20261015, "steps": 20, "cfg": 5.0, "sampler_name": "dpmpp_2m", "scheduler": "karras", "positive": ["9", 0], "negative": ["9", 1], "latent_image": ["12", 0], "denoise": 0.4}},
+  "14": {"class_type": "VAEDecodeTiled", "_meta": {"title": "디코드 (타일)"}, "inputs": {"samples": ["13", 0], "vae": ["2", 0], "tile_size": 512, "overlap": 64, "temporal_size": 64, "temporal_overlap": 8}},
+  "15": {"class_type": "SaveImage", "_meta": {"title": "SF:출력"}, "inputs": {"images": ["14", 0], "filename_prefix": "shotflow/guide"}}
+}

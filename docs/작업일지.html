@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShotFlow 작업일지</title>
+<style>
+:root{--bg:#f3f5f8;--card:#fff;--ink:#172b45;--muted:#5b6c81;--line:#d3dce8;--navy:#173f6c;--chip:#e8eef6;--soft:#f0f3f7;--okbg:#e9f5ec;--ok:#22603a;--warnbg:#fff4e5;--warn:#8a4b0f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 "Malgun Gothic",system-ui,sans-serif}
+main{max-width:980px;margin:auto;padding:32px 20px 70px}
+h1{font-size:30px;margin:0;letter-spacing:-.8px}
+.sub{color:var(--muted);margin:6px 0 0}
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin-top:18px}
+h2{font-size:20px;margin:0 0 4px}
+.date{color:var(--muted);font-size:14px;margin-bottom:12px}
+h3{font-size:16px;margin:16px 0 6px}
+table{width:100%;border-collapse:collapse;font-size:15px;margin:8px 0}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--soft);font-size:14px;color:var(--muted)}
+code{background:var(--soft);border-radius:5px;padding:1px 6px;font-family:Consolas,monospace;font-size:14px}
+pre{background:#1d2735;color:#e3e9f2;border-radius:8px;padding:14px 16px;overflow-x:auto;font:14px/1.6 Consolas,monospace}
+ul{padding-left:22px;margin:6px 0 10px}li{margin:4px 0}
+.tag{display:inline-block;border-radius:5px;padding:0 8px;font-size:13px;font-weight:700}
+.done{background:var(--okbg);color:var(--ok)}.todo{background:var(--chip);color:var(--navy)}.warn{background:var(--warnbg);color:var(--warn)}
+.status{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.status div{background:var(--soft);border-radius:8px;padding:10px 12px}
+.status b{display:block;font-size:22px}
+.status span{font-size:13px;color:var(--muted)}
+img{max-width:100%;border-radius:8px;border:1px solid var(--line)}
+@media(max-width:640px){.status{grid-template-columns:repeat(2,minmax(0,1fr))}section{padding:18px 16px}}
+</style>
+</head>
+<body>
+<main>
+<h1>ShotFlow 작업일지</h1>
+<p class="sub">최신 기록이 위에 있습니다. 인수받는 에이전트는 "현재 상태"와 가장 최근 기록을 먼저 읽으세요.</p>
+
+<section id="now">
+  <h2>현재 상태</h2>
+  <div class="date">2026-11-11 기준</div>
+  <div class="status">
+    <div><b>1~4주차 + 3D</b><span>툴 완성 · Blender 연동 추가</span></div>
+    <div><b>86 / 86</b><span>테스트 통과</span></div>
+    <div><b>v1</b><span>포트폴리오 (02_포트폴리오\00_안우혁_포트폴리오)</span></div>
+    <div><b>새 영상 1 가편집</b><span>COLLAPSE_DAY 4컷 생성 · rough_v01 (17.6초)</span></div>
+  </div>
+  <h3>실행 방법</h3>
+<pre>처음: ShotFlow\설치.cmd   매번: ShotFlow\시작.cmd  →  http://127.0.0.1:8710
+생성·부분 수정: 화면 왼쪽 아래 "ComfyUI 시작" (ComfyUI 화면은 http://127.0.0.1:8190, ShotFlow 노드 포함)
+3D 연동: 왼쪽 메뉴 "3D 연동" (Blender 4.2 LTS 필요, C:\Program Files\Blender Foundation)
+사용 안내: docs\사용안내.html
+
+# 개발용 (backend 폴더)
+..\.venv\Scripts\python.exe -m shotflow init | import-v04 | qc | sheets | proxies | apply-edl | add-sequence | serve
+..\.venv\Scripts\python.exe -m pytest -q      # 약 55초. Blender 실제 렌더 테스트 1개만 GPU 사용 (Blender 없으면 건너뜀)
+# 화면 수정 후 (frontend 폴더): npm run build</pre>
+</section>
+
+<section>
+  <h2>7일차 · 영상별 규격, 그림 등록, 편집본 만들기 · 영상 1 가편집</h2>
+  <div class="date">2026-11-11 · 결정기록 D-014</div>
+  <h3>한 일</h3>
+  <table>
+    <tr><th style="width:170px">항목</th><th>내용</th><th style="width:80px">상태</th></tr>
+    <tr><td>영상별 규격</td><td><code>sequence.width / height</code>(비우면 프로젝트 규격). <code>Sequence.frame_size</code>를 자동 검수와 편집 조립이 씀. API <code>PUT /api/sequences/{id}/frame-size</code>. 예전 DB에는 <code>init_db</code>가 빈 열을 더함</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>밖에서 만든 그림 등록</td><td><code>structure.import_image</code>, API <code>POST /api/shots/{id}/versions/import</code>. 버전 코드 <code>ext_###</code>, 출처 imported, 원본 버전 연결, 등록 즉시 자동 검수</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>편집본 만들기</td><td><code>structure.create_edit</code>, API <code>POST /api/sequences/{id}/edits</code>. 직접 등록한 영상은 편집본이 없어서 조립을 시작할 수 없었음</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>영상 1에 적용</td><td>DB 백업(<code>data/shotflow_before_week7_backup.db</code>) 후 COLLAPSE_DAY 규격을 1280×720으로 정함. 고친 C3 그림을 <code>ext_001</code>(ID 59)로 등록. Seedance 패키지 #95 ~ #98의 결과 4개를 <code>sd_001</code>(ID 58, 60, 61, 62)로 가져옴</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>영상 1 가편집</td><td>편집본 #8 <code>rough_v01</code>: C1 12~84, C2 12~121, C3 48~120, C4 0~121 프레임 + 엔드카드 2.5초. 422프레임, 17.58초, 1280×720. 조립 10초, 자동 검수 통과, 컷 위치 72 · 181 · 253이 계획과 같음</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>테스트</td><td><code>test_week7.py</code> 11개. 전체 86 / 86 통과</td><td><span class="tag done">완료</span></td></tr>
+  </table>
+  <h3>발견한 문제와 처리</h3>
+  <ul>
+    <li>720p로 만든 영상이 "규격 불일치" 오류로 표시됨 → 규격이 프로젝트 하나에 1920×1080으로 묶여 있었음. 영상마다 규격을 정할 수 있게 함 (D-014)</li>
+    <li>AI 부분 수정으로 흐린 배경의 작은 얼룩을 지우려 했으나 여섯 번 모두 실패(새 물체가 그려지거나 얼룩이 커짐) → 주변 색으로 메운 그림을 밖에서 만들어 등록하는 길을 추가. 작은 얼룩 지우기 자체는 아직 ShotFlow 안에 없음</li>
+    <li>작업 해상도 1280×720은 이 PC 한계(655,360픽셀)를 넘어 거부됨. 의도한 동작</li>
+    <li>화면(프런트)에는 아직 규격 표시, 그림 등록 버튼, 편집본 만들기 버튼이 없음. 지금은 API로만 씀</li>
+  </ul>
+</section>
+
+<section>
+  <h2>6일차 · 새 영상 등록, 영상 1(무너지는 날) 시작</h2>
+  <div class="date">2026-11-11 · 결정기록 D-013</div>
+  <h3>한 일</h3>
+  <table>
+    <tr><th style="width:170px">항목</th><th>내용</th><th style="width:80px">상태</th></tr>
+    <tr><td>새 영상 · 샷 등록</td><td><code>services/structure.py</code>(create_sequence, add_shot), API <code>POST /api/projects/{id}/sequences</code> · <code>POST /api/sequences/{id}/shots</code>, CLI <code>add-sequence &lt;json&gt;</code>. 코드 규칙과 중복을 검사하고 한국어로 알려 줌. 활동 기록(sequence.create, shot.create) 남김</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>다시 불러오기 안전장치</td><td><code>import-v04</code>는 프로젝트를 지우고 다시 만든다. 직접 등록한 영상이 있으면 지우지 않고 멈추게 함 (D-013)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>영상 1 등록</td><td>DB 백업(<code>data/shotflow_before_week6_backup.db</code>) 후 <code>scenes/collapse_day/sequence.json</code>으로 COLLAPSE_DAY 「무너지는 날」 등록 (영상 ID 4, 샷 C1 ~ C4 = ID 19 ~ 22)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>영상 1 장면</td><td><code>scenes/collapse_day/build_scenes.py</code> → <code>collapse_C1 ~ C4.blend</code>. 같은 세트에 카메라와 SF_MASK만 다름. 물체 553개</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>패스 렌더</td><td>작업 #51 ~ #54 (일반 · 깊이 · 마스크, 1920×1080, 컷당 3.5 ~ 3.7초). 일반 렌더가 각 샷의 <code>b3d_001</code>로 등록됨</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>테스트</td><td><code>test_week6.py</code> 12개. 전체 75 / 75 통과</td><td><span class="tag done">완료</span></td></tr>
+  </table>
+  <h3>발견한 문제와 처리</h3>
+  <ul>
+    <li><b>화면은 첫 프로젝트의 영상만 보여 준다</b>: 새 프로젝트를 만들면 왼쪽 메뉴에 나오지 않는다. 그래서 새 영상을 기존 프로젝트 아래에 두었다 (D-013). 화면을 고쳐 여러 프로젝트를 보여 주는 일은 남겨 둠</li>
+    <li><b>왼쪽 메뉴는 처음 열 때 한 번만 영상 목록을 읽는다</b>: 등록한 뒤에는 화면을 새로 고쳐야 새 영상이 보인다</li>
+    <li><b>깊이 이미지에 창문 같은 세부가 없다</b>: 창문을 0.5m 두께의 상자로 붙였더니 깊이 차이가 거의 나지 않는다. 첫 장면 그림을 만들어 보고, 필요하면 창문을 파내거나 일반 렌더를 함께 쓴다</li>
+    <li><b>밖에서 만든 그림을 버전으로 올리는 기능은 아직 없다</b>: 결과 가져오기는 영상 파일만 받는다. 첫 장면 그림을 무제한 이미지 모델로 만들게 되면 필요</li>
+  </ul>
+</section>
+
+<section>
+  <h2>5일차 · 3D 연동 (Blender) 추가</h2>
+  <div class="date">2026-10-15 · 결정기록 D-009~D-012</div>
+  <h3>한 일</h3>
+  <table>
+    <tr><th style="width:170px">항목</th><th>내용</th><th style="width:80px">상태</th></tr>
+    <tr><td>모델 3개</td><td>깊이 ControlNet, Realistic Vision 6.0, VAE → <code>data/models</code>. 배포처 SHA-256과 일치 확인. <code>E:\AI_제작환경</code>에는 추가하지 않음 (D-010)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>Blender 연동</td><td>장면 확인 · 패스 렌더(일반·깊이·마스크) · 레이어 렌더. <code>--factory-startup</code>, .blend 읽기 전용 (D-009)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>예시 장면</td><td><code>scenes/perfume_rain/build_scenes.py</code>로 향수병 키프레임 장면, R05용 비 레이어 장면 생성 (R05·R04를 재서 카메라와 빗방울을 맞춤)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>3D 가이드 레시피</td><td><code>recipes/guide_depth_sd15</code>: 깊이로 구도 고정 + 사진풍 모델 + 1.5배 다듬기 (1536×864). 실제 4장 생성, 2장 버전 등록</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>레이어 합성</td><td>빛 더하기 / 일반, 한 프레임 미리보기(0.63초), 전체 합성 → R05 <code>v01_comp_001</code> (27.7초, 소리 유지, 검수 통과)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>향수 v0.6</td><td><code>edits/v0.6/RAIN_ATLAS.json</code>: R05를 합성본으로, R04→R05 디졸브를 컷으로 → 468프레임, 검수 통과</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>외부 생성</td><td>Seedance 패키지 만들기(시작 프레임·프롬프트·설정·한글 안내) / 결과 가져오기(크레딧·작업 ID 기록). 패키지 #50 준비</td><td><span class="tag todo">제출 대기</span></td></tr>
+    <tr><td>화면</td><td>왼쪽 메뉴 "3D 연동" (탭 3개, 단계형). 처음 쓰는 사람 기준으로 직접 눌러 보며 5건 수정</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>테스트</td><td><code>test_week5.py</code> 12개 (실제 Blender 렌더 1개 포함). 전체 63 / 63 통과</td><td><span class="tag done">완료</span></td></tr>
+  </table>
+  <h3>발견한 문제와 처리</h3>
+  <ul>
+    <li><b>연속 생성 시 GPU 83°C 중단</b>: 한 장이 약 20°C를 올림 → 60°C로 식은 뒤 시작 (D-011). 중단된 작업 기록은 그대로 둠</li>
+    <li><b>EEVEE 유리 속 액체</b>가 탁하게 보임 → 유리는 얇은 판 굴절, 색은 액체가 맡도록 변경</li>
+    <li><b>비 레이어의 심도(DOF)</b>가 하얀 원판으로 뭉침 → 심도를 끄고 거리별 밝기로 원근감 (D-012)</li>
+    <li>모델 폴더를 데이터 폴더 기준으로 찾으면 임시 데이터로 도는 테스트가 모델을 못 찾음 → 설치 폴더 기준으로 변경</li>
+    <li>기존 테스트 1줄 수정: 레시피 목록 확인(5종 → 6종, <code>guide_depth_sd15</code> 추가)</li>
+  </ul>
+  <h3>기존 코드에서 바꾼 곳 (추가만)</h3>
+  <ul>
+    <li><code>models</code>: 출처 <code>blender</code> 추가 · <code>comfy/server.py</code>: 모델 폴더 찾기 + extra_paths.yaml에 모델 항목 · <code>comfy/recipes.py</code>·<code>comfy/runner.py</code>: 모델 위치 찾는 함수 교체, 깊이 이미지 연결(<code>guide_depth</code>), 코드 접두사 <code>g3d</code></li>
+    <li><code>api/__init__.py</code>: 새 라우터 1줄 · 화면: 메뉴 1줄, 경로 1줄, 아이콘 4개, 출처 이름 1개, 생성 화면 레시피 목록에서 3D 가이드 제외 1줄</li>
+  </ul>
+</section>
+
+<section>
+  <h2>4일차 · 4주차 개발 (ComfyUI 노드 · 납품 · 마무리)</h2>
+  <div class="date">2026-10-15</div>
+  <h3>한 일</h3>
+  <table>
+    <tr><th style="width:170px">항목</th><th>내용</th><th style="width:80px">상태</th></tr>
+    <tr><td>ComfyUI 전용 노드</td><td>"ShotFlow 버전 불러오기"(버전 목록에서 선택 → 프레임을 IMAGE로), "ShotFlow에 등록"(IMAGE → 새 버전, 실행된 노드 구조·화면용 워크플로·메모 저장). ComfyUI 폴더에 설치하지 않고 ShotFlow 폴더에서 불러옴 (D-007)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>실제 왕복</td><td>ComfyUI에서 불러오기(R05 v01, 60프레임) → 절반 크기 → 등록 → ShotFlow에 <code>pub_001</code> 생성, 부모 v01 연결, 자동 검수 통과</td><td><span class="tag done">확인</span></td></tr>
+    <tr><td>납품 패키지</td><td>승인 버전만, 이름 규칙 <code>{project}_{sequence}_{shot}_{version}</code>, manifest.json/csv · checksums.sha256, 재검증(변조·누락·추가 파일 감지). 향수 승인 샷 5개로 실제 생성·검증</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>현황판</td><td>로컬 생성 통계 (레시피별 작업·완료·실패·평균 시간, GPU 사용 시간, 최고 온도·VRAM, 납품 수). 측정값만 표시</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>설치</td><td><code>설치.cmd</code> + <code>backend/install.py</code>. 클린 복사본에서 85초 설치, 테스트 37 통과·14 건너뜀, <code>시작.cmd</code> 응답 확인</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>사용 안내</td><td><code>docs/사용안내.html</code>: 설치, 화면, 리뷰, 편집, 생성, 부분 수정, ComfyUI 노드, 레시피 추가, 납품, 검수 항목, 문제 해결, 한계</td><td><span class="tag done">완료</span></td></tr>
+  </table>
+  <h3>발견한 문제와 처리</h3>
+  <ul>
+    <li><b>설치.cmd 문법 오류</b>: cmd.exe가 UTF-8 한글 줄을 잘못 읽음 → .cmd는 영문만, 한글 안내는 Python으로 (D-008). <code>시작.cmd</code>도 같은 방식으로 정리</li>
+    <li>8710 포트를 예전 코드의 ShotFlow 서버가 잡고 있어 새 기능이 안 보임 → 해당 프로세스 종료 후 재시작</li>
+    <li>납품 화면: 체크박스가 칸 전체로 늘어남, 표가 패널 밖으로 넘침 → 수정</li>
+    <li>미검증: "ShotFlow에 등록" 노드를 ComfyUI <b>화면에서 클릭해</b> 실행하는 과정은 사람이 해 봐야 함 (같은 노드를 ComfyUI API로 실행해 검증함). 화면에서 실행하면 workflow.json도 함께 저장됨</li>
+  </ul>
+</section>
+
+<section>
+  <h2>3일차 · 3주차 개발 (ComfyUI 통합 + 화면 디자인 정리)</h2>
+  <div class="date">2026-10-14</div>
+  <h3>한 일</h3>
+  <table>
+    <tr><th style="width:170px">항목</th><th>내용</th><th style="width:80px">상태</th></tr>
+    <tr><td>전용 ComfyUI</td><td>입력·출력을 <code>data/comfy</code>로 지정해 ShotFlow가 직접 실행·종료 (포트 8190). 기존 ComfyUI(8188)는 기존 스크립트로 정상 종료 (D-003)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>레시피</td><td>5종 등록: 키프레임 생성, 이미지 변형, 부분 수정, 짧은 영상 생성, 영상 변형. <code>SF:</code> 노드만 입력칸으로 노출, 종류·범위는 ComfyUI 노드 정보에서 자동. 파일이 바뀌면 새 버전 자동 등록</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>생성 작업</td><td>DB에 상태 저장(서버 재시작 시 "중단됨"으로 정직하게 표시), 실시간 진행률, GPU 온도·VRAM·RAM 감시, 메모리 부족 시 해상도 낮춰 1회 재시도, 취소, 모델 SHA-256 기록</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>변형 그리드</td><td>시드 × 강도 조합 최대 12개 → 결과 격자 → 고른 것만 버전 등록</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>부분 수정</td><td>프레임 위 마스크 그리기 → 주변만 잘라 SD1.5 → 원본 합성 → 톤 보정 → 원래 프레임에 붙여 자식 버전 자동 등록 → 마스크 밖 변경 검수 (D-004, D-006)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>화면</td><td>디자인 전면 정리: 이모지·기호 아이콘 제거(SVG 아이콘), 강조선·알약 표시 제거, 상태는 점+글자. 새 화면: 생성, 작업 대기열, 작업 상세(실행된 노드 구조), 레시피, 마스크 편집기. 사이드바에 ComfyUI 상태·GPU 표시</td><td><span class="tag done">완료</span></td></tr>
+  </table>
+  <h3>실제 GPU 실행 (RTX 2060 6GB)</h3>
+  <table>
+    <tr><th>레시피</th><th>건수</th><th>시간 / 건</th><th>결과</th></tr>
+    <tr><td>키프레임 생성 (768×432)</td><td>2</td><td>7~14초</td><td>정상. SD1.5 콘셉트 수준</td></tr>
+    <tr><td>이미지 변형 그리드 2×2</td><td>4</td><td>7.5초</td><td>정상. 강도에 따라 변화 차이 확인</td></tr>
+    <tr><td>부분 수정</td><td>4</td><td>6초</td><td>마스크 밖 변경 0px. 톤 보정 후 경계 크게 감소</td></tr>
+    <tr><td>짧은 영상 생성 (Wan)</td><td>3</td><td>104~121초</td><td><b>품질 낮음</b> (블록·뭉개짐). 6GB·저해상도 한계</td></tr>
+    <tr><td>영상 변형 (Wan)</td><td>6</td><td>93~110초</td><td>진단 후 원본 형태 유지 (D-005). 배경 블록 노이즈는 남음</td></tr>
+  </table>
+  <p class="small">최고 온도 73°C (보호 기준 83°C), 최대 VRAM 4.9GB. 작업 기록은 화면의 "작업 대기열"에 모두 남아 있음 (실패한 진단 실험 포함).</p>
+  <h3>테스트</h3>
+  <ul>
+    <li><b>41개 통과</b> (1주차 20 + 2주차 10 + 3주차 11). 3주차 테스트는 가짜 ComfyUI로 GPU 없이 실행: 노출 입력, 레시피 버전, 그리드, 제한(4n+1·면적), 원본 바인딩, 메모리 부족 재시도, 취소·중단 복구, 마스크 밖 0px, 톤 보정, API 전체 흐름</li>
+    <li>실제 Chrome으로 9개 화면 + 마스크 편집기 붓질 확인</li>
+  </ul>
+  <h3>발견한 문제와 처리</h3>
+  <ul>
+    <li>출력 노드의 파일 이름 입력이 화면에 노출됨 → ShotFlow가 정하는 값이라 자동 제외</li>
+    <li>Wan 결과 깨짐 → 5단계 실험으로 원인 확인 (노이즈 시프트). 정밀도·타일은 원인 아님 (D-005)</li>
+    <li>부분 수정 사각형 경계 → 주파수 분리 톤 보정 (D-006)</li>
+    <li>NumPy 2에서 <code>ndarray.ptp()</code> 제거됨 → <code>np.ptp()</code> 사용</li>
+  </ul>
+</section>
+
+<section>
+  <h2>2일차 · 2주차 개발 (화면 + 편집 조립 + v0.5)</h2>
+  <div class="date">2026-10-14</div>
+
+  <h3>한 일</h3>
+  <table>
+    <tr><th style="width:170px">항목</th><th>내용</th><th style="width:80px">상태</th></tr>
+    <tr><td>화면 (React)</td><td>현황판 · 시퀀스(샷 목록·편집본) · 샷 상세(버전 계보·플레이어·검수 타임라인·생성 기록·노트) · 리뷰(A/B 좌우·와이프, 동시 재생, 프레임 단위 이동, 단축키) · 편집(타임라인·컷 표·전환·밝기·엔드카드·조립)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>리뷰 결정</td><td>코멘트/승인/반려/수정요청 + 프레임 고정. 승인 시 이전 승인 버전은 "검토중"으로 돌아감 (샷당 승인 1개)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>편집 조립</td><td>EDL → FFmpeg (컷·디졸브·밝기·엔드카드·페이드) → 새 버전 등록 → 자동 검수 → 경계 시트. 조립마다 실제 컷 위치·디졸브·엔드카드 구간 기록</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>브라우저 재생</td><td>원본 HEVC → 720p H.264 프록시 + 썸네일 (<code>data/cache</code>)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>영상 v0.5</td><td><code>edits/v0.5/*.json</code> 편집 파일로 3편 조립. 컷마다 이유 기록</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>시작.cmd</td><td>더블클릭 실행 (화면 파일이 없으면 자동 빌드)</td><td><span class="tag done">완료</span></td></tr>
+  </table>
+
+  <h3>v0.5 결과 (실측)</h3>
+  <table>
+    <tr><th>영상</th><th>v0.4</th><th>v0.5</th><th>계획 = 실제 프레임</th><th>검수</th></tr>
+    <tr><td>자동차 BASALT RUN</td><td>24.0초</td><td>19.0초</td><td>456 = 456</td><td>통과 (정보 2: 음량, 엔드카드 무음)</td></tr>
+    <tr><td>향수 RAIN ATLAS</td><td>20.0초</td><td>19.0초</td><td>456 = 456</td><td>통과 (정보 2)</td></tr>
+    <tr><td>시계 THE LAST LIGHT</td><td>24.0초</td><td>18.5초</td><td>444 = 444</td><td>통과. v0.4의 1.25초 정지 <b>경고 사라짐</b></td></tr>
+  </table>
+  <p class="small">자동 밝기 맞춤(기준 샷 쪽으로 절반, 최대 ±0.04): 자동차 B04 +0.036, 시계 L04 +0.040(상한) 등. 조립 시간 15~21초/편.</p>
+
+  <h3>테스트</h3>
+  <ul>
+    <li><b>30개 통과 / 0 실패</b> (1주차 20 + 2주차 10). 합성 영상으로 실제 조립 → 프레임 수 일치 · 컷 위치 일치 · 엔드카드 무음 "의도됨" 처리까지 검증</li>
+    <li>화면: TypeScript 타입 검사 통과. 실제 Chrome으로 5개 화면 표시와 영상 로드(readyState 4) 확인</li>
+  </ul>
+
+  <h3>발견한 문제와 처리</h3>
+  <ul>
+    <li><b>엔드카드 1프레임 누락</b>(계획 456 / 실제 455): 정지 이미지 반복 입력이 정확한 길이에서 마지막 프레임을 버림 → 입력을 0.5초 넉넉히 주고 필터로 잘라 해결. 이후 3편 모두 일치</li>
+    <li><b>첫 화면이 검게 남는 플레이어 버그</b>: React가 src를 preload보다 먼저 넣어 Chrome이 메타데이터만 읽고 멈춤 → 메타데이터 직후 첫 프레임으로 이동 + 항상 음소거로 불러오고 재생 시 소리 켬(🔊 버튼)</li>
+    <li>헤드리스 브라우저의 "가상 시간" 캡처는 영상 로딩과 맞지 않아 오판 → 실제 시간 원격 제어로 재검증</li>
+    <li><span class="tag warn">확인 필요</span> <b>향수 R04→R05 디졸브</b>: R04는 병이 왼쪽, R05는 가운데라 0.5초 디졸브 동안 병 두 개가 반투명하게 겹쳐 보임. 디졸브로 만들었지만 컷이 더 나을 수 있음 (→ v0.6에서 컷으로 바꿈, D-012). 편집 화면에서 5번 줄 전환을 "컷"으로 바꾸고 조립하면 바로 비교 가능</li>
+  </ul>
+  <img src="../data/sheets/RAIN_ATLAS_edit5_boundaries.jpg" alt="향수 v0.5 경계 비교 시트">
+</section>
+
+<section>
+  <h2>1일차 · 1주차 개발</h2>
+  <div class="date">2026-10-14</div>
+
+  <h3>한 일</h3>
+  <table>
+    <tr><th style="width:170px">항목</th><th>내용</th><th style="width:80px">상태</th></tr>
+    <tr><td>환경</td><td><code>.venv</code>(Python 3.10, FastAPI 0.143, SQLAlchemy 2.0, OpenCV 5.0, FFmpeg 7.1) · <code>frontend</code>(React 19, TS 7, Vite 8, Vitest 5) 설치</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>데이터 모델</td><td>설계서 6장 전체 테이블 (레시피·계보·납품 포함, 2~4주차용 테이블도 미리 생성)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>v0.4 가져오기</td><td>시퀀스 3 · 샷 15 · 버전 16 · 편집본 3 · 생성작업 13 + 재사용 3 + 거절 1 · 크레딧 960 · 노트 15 · 해시 불일치 0</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>자동 검수</td><td>규격 · 검은 화면(페이드 구분) · 멈춘 화면 · 깜빡임 · 숨은 컷 · 무음 · 클리핑 · 음량 · 디코딩 프레임 수. 편집본은 EDL 컷 위치와 대조</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>컷 경계 비교 시트</td><td>3개 시퀀스 생성 (<code>data/sheets/</code>)</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>API</td><td>프로젝트·시퀀스·샷·버전·영상 스트리밍(구간 요청 지원)·검수 실행·작업 상태·편집·경계 시트·현황판</td><td><span class="tag done">완료</span></td></tr>
+    <tr><td>작업 대기열</td><td>단일 작업자 스레드 (무거운 작업 1개씩). 메모리 기반이라 서버 재시작 시 대기 중 작업은 사라짐 → 3주차 ComfyUI 작업은 DB(GenerationJob)에 상태 저장 필요</td><td><span class="tag warn">1주차 범위</span></td></tr>
+  </table>
+
+  <h3>테스트</h3>
+  <ul>
+    <li><b>20개 통과 / 0 실패 / 0 건너뜀</b> (23초)</li>
+    <li>검수 기능: 문제를 일부러 심은 합성 영상(검은 화면·멈춤·무음·깜빡임·숨은 컷·페이드)을 테스트 중 생성해 확인</li>
+    <li>실제 데이터: 가져오기 수치, 재가져오기(중복 없음), 원본 해시 불변, 실제 편집본 컷 4개 일치, API 전체 흐름</li>
+    <li>원본 보호: <code>data/</code> 밖 쓰기 시도는 오류로 차단됨을 테스트</li>
+  </ul>
+
+  <h3>실측 결과</h3>
+  <table>
+    <tr><th>대상</th><th>결과</th></tr>
+    <tr><td>원본 클립 16개</td><td>모두 통과. 원본 코덱은 HEVC, 편집본은 H.264. 생성 오디오 음량 -21 ~ -42 LUFS (목표 -16보다 작음, "정보"로 표시)</td></tr>
+    <tr><td>L03 · L05</td><td>0.5~0.7초 정지 구간 (짧은 정지 = 정보)</td></tr>
+    <tr><td>시계 편집본</td><td>L03 끝부분 1.25초 정지 → <b>경고</b>. 이전 수동 검토의 "끝부분 정지에 가까움"과 일치</td></tr>
+    <tr><td>컷 감지</td><td>편집본 3편의 실제 컷 12개 모두 감지, 오탐 0 (원본 16개 포함)</td></tr>
+    <tr><td>경계 시트</td><td>향수 R04→R05 급변이 시트에서 바로 보임. 평균색 ΔE는 3.7로 다른 컷과 비슷 → D-001 결론 재확인</td></tr>
+  </table>
+  <img src="../data/sheets/RAIN_ATLAS_edit2_boundaries.jpg" alt="향수 편집본 컷 경계 비교 시트">
+
+  <h3>결정</h3>
+  <ul>
+    <li><b>D-002 컷 감지 기준 변경:</b> 색 분포 방식은 비슷한 샷 사이의 컷을 놓침(자동차 4개 전부 놓침) → 프레임 차이 급등 방식으로 교체. 근거 수치는 설계서 결정기록 참고</li>
+    <li>멈춘 화면은 1초 이상만 경고 (제품 정지 샷이 의도된 경우가 많음)</li>
+    <li>작업 기록 시각은 UTC로 저장 (DB에는 시간대 표시 없이 저장됨 → 화면에서 한국 시간으로 변환할 것)</li>
+  </ul>
+
+  <h3>남은 문제·참고</h3>
+  <ul>
+    <li>테스트 실행 시 Starlette의 httpx 관련 사용 중단 경고 1건 (기능 영향 없음)</li>
+    <li>QC 기준값은 <code>backend/shotflow/services/qc/thresholds.py</code> 한 곳에 모여 있음</li>
+  </ul>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "id": "inpaint_sd15",
+  "name": "부분 수정",
+  "kind": "inpaint",
+  "description": "ShotFlow가 마스크 주변만 잘라 작업 해상도로 보내고, SD1.5가 마스크 안만 다시 그립니다. 노드 안에서 원본과 합성하고, ShotFlow가 원래 프레임에 다시 붙입니다. 마스크 밖 픽셀은 바뀌지 않습니다.",
+  "output": {"node_title": "SF:출력", "kind": "image"},
+  "bindings": {
+    "crop_image": {"node_title": "SF:수정 영역", "input": "image"},
+    "crop_mask": {"node_title": "SF:마스크", "input": "image"}
+  },
+  "expose": {
+    "SF:샘플러": ["seed", "steps", "cfg", "denoise"],
+    "SF:수정 영역": [],
+    "SF:마스크": [],
+    "SF:마스크 확장": ["expand"]
+  },
+  "strength_input": {"node_title": "SF:샘플러", "input": "denoise"},
+  "fix_work_size": 512
+}

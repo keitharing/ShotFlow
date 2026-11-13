@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+python-multipart
+sqlalchemy
+pydantic
+httpx
+websocket-client
+numpy
+opencv-python-headless
+pillow
+imageio-ffmpeg
+pytest

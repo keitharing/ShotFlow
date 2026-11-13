@@ -1,0 +1,14 @@
+{
+  "1": {"class_type": "CheckpointLoaderSimple", "_meta": {"title": "모델"}, "inputs": {"ckpt_name": "v1-5-pruned-emaonly-fp16.safetensors"}},
+  "2": {"class_type": "CLIPTextEncode", "_meta": {"title": "SF:프롬프트"}, "inputs": {"text": "falling rain drops on dark green background, cinematic, consistent lighting", "clip": ["1", 1]}},
+  "3": {"class_type": "CLIPTextEncode", "_meta": {"title": "SF:네거티브"}, "inputs": {"text": "new object, text, watermark, logo, blurry, seams, color shift", "clip": ["1", 1]}},
+  "4": {"class_type": "LoadImage", "_meta": {"title": "SF:수정 영역"}, "inputs": {"image": "placeholder.png"}},
+  "5": {"class_type": "LoadImageMask", "_meta": {"title": "SF:마스크"}, "inputs": {"image": "placeholder_mask.png", "channel": "red"}},
+  "6": {"class_type": "GrowMask", "_meta": {"title": "SF:마스크 확장"}, "inputs": {"mask": ["5", 0], "expand": 6, "tapered_corners": true}},
+  "7": {"class_type": "VAEEncode", "_meta": {"title": "인코드"}, "inputs": {"pixels": ["4", 0], "vae": ["1", 2]}},
+  "8": {"class_type": "SetLatentNoiseMask", "_meta": {"title": "마스크 안만 노이즈"}, "inputs": {"samples": ["7", 0], "mask": ["6", 0]}},
+  "9": {"class_type": "KSampler", "_meta": {"title": "SF:샘플러"}, "inputs": {"model": ["1", 0], "seed": 20261014, "steps": 24, "cfg": 7.0, "sampler_name": "euler", "scheduler": "normal", "positive": ["2", 0], "negative": ["3", 0], "latent_image": ["8", 0], "denoise": 0.75}},
+  "10": {"class_type": "VAEDecode", "_meta": {"title": "디코드"}, "inputs": {"samples": ["9", 0], "vae": ["1", 2]}},
+  "11": {"class_type": "ImageCompositeMasked", "_meta": {"title": "원본과 합성"}, "inputs": {"destination": ["4", 0], "source": ["10", 0], "x": 0, "y": 0, "resize_source": false, "mask": ["6", 0]}},
+  "12": {"class_type": "SaveImage", "_meta": {"title": "SF:출력"}, "inputs": {"images": ["11", 0], "filename_prefix": "shotflow/inpaint"}}
+}

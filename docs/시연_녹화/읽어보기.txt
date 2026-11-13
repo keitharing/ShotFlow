@@ -1,0 +1,24 @@
+ShotFlow 시연 영상 (2026-11-13 v03, 영상 1 BEFORE THE DUST · 영상 2 FIRST DROP 기준)
+
+결과: 포트폴리오 폴더 assets\video\ShotFlow_Demo_v03.mp4 (1분 50초, 1920x1080, 한국어 자막, 소리 없음)
+      같은 파일이 out\ShotFlow_Demo_v03.mp4 에도 있음. 옛 시연 v01 · v02는 그대로 둠.
+      v03은 v02(2분 10초)가 늘어지고 ComfyUI 내용이 빠져서 다시 찍음.
+      로컬 ComfyUI 켜기 → 깊이로 그리기 → 부분 수정(인페인트 후보 3개) → 작업 대기열까지 실제로 돌리고,
+      기다리는 구간은 배속(오른쪽 위 주황 배지 "▶▶ N배속")으로 줄임.
+
+다시 찍는 법 (원본 DB를 건드리지 않음)
+1. 원본 data\shotflow.db 를 data_demo\shotflow.db 로 복사 (sqlite backup). data_demo\imports, deliveries, generated, comfy 는 지우고
+   data\comfy\launch_options.json · object_info_snapshot.json 을 data_demo\comfy 로 복사 (시연 중 ComfyUI를 켜기 때문)
+2. backend 폴더에서:  set SHOTFLOW_DATA=..\data_demo  →  ..\.venv\Scripts\python.exe -m shotflow serve --port 8720
+   (8710은 원본 데이터 서버 포트라 피함)
+3. 이 폴더에서:  ..\..\.venv\Scripts\python.exe record_demo.py test   (장면마다 정지 그림 → test\)
+                ..\..\.venv\Scripts\python.exe record_demo.py video  (영상 → out\)
+
+주의
+- 3D 연동 장면은 Blender 결과 목록(최근 40개)에서 #149(first_drop_A3_end)를 고름. 새 작업이 늘어 목록에서 밀리면 record_demo.py의 "pick 149"를 남아 있는 FIRST DROP 작업 번호로 바꿀 것
+- 시연 중 하는 등록(시작 그림 다시 등록, FIRST_DROP_approved 납품 패키지)은 data_demo 복사본에만 남음
+- 기록_맞추기_20261112.py: 원본 DB에 영상 1·2의 실제 사용 컷을 승인으로 맞춘 스크립트 (한 번 실행함, 다시 돌려도 건너뜀)
+- _backup_frontend_20261112\: 화면 버튼을 넣기 전 api.ts · Dashboard · SequencePage · ShotPage 사본
+- 녹화 중 시연 서버가 ComfyUI를 8190 포트에 켬(GPU 사용). 끝나면 서버와 그 ComfyUI를 같이 끌 것. 다른 GPU 작업과 겹치지 않게 할 것
+- 부분 수정 장면은 샷 #21의 버전 #50(BEFORE THE DUST C3)에서 오른쪽 위 폐건물을 칠해 후보 3개를 만듦
+- record_demo_v02_백업.py: v02를 찍은 스크립트
